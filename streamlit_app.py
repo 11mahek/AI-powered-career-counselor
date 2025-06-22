@@ -72,7 +72,7 @@ elif st.session_state.step == 2:
         q = questions[q_idx]
         st.markdown(f"**Question {q_idx + 1}: {q['question']}\n{q['options']}**")
 
-        selected = st.radio("Choose an answer:", list(q["options"].keys()), key=f"q{q_idx}")
+        selected = st.radio("Choose an answer:", list(q["options"]), key=f"q{q_idx}")
 
         if st.button("Next"):
             st.session_state.answers.append(selected)
