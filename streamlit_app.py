@@ -2,7 +2,7 @@ import streamlit as st
 from huggingface_hub import InferenceClient
 
 # Load HF token from secrets
-HF_TOKEN = st.secrets["HF_TOKEN"]
+HF_TOKEN = st.secrets["hf_token"]
 
 # Setup LLaMA 3.1 client
 client = InferenceClient(
