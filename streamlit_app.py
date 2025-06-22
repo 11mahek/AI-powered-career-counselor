@@ -74,7 +74,7 @@ elif st.session_state.step == 2:
         for key, value in q['options'].items():
             st.write(f"{key}) {value}")
 
-        selected = st.radio("Choose an answer:", list(q["options"].items()), key=f"q{q_idx}")
+        selected = st.radio("Choose an answer:", q["options"].items(), key=f"q{q_idx}")
 
         if st.button("Next"):
             st.session_state.answers.append(selected)
