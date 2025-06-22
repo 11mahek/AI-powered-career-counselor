@@ -48,11 +48,11 @@ elif st.session_state.step == 1:
             messages=[{"role": "user", "content": prompt}]
         )
         result = response.choices[0].message.content.strip()
-    raw_questions = [q.strip() for q in result.split("\n\n") if q.strip()]
-    questions = [q.strip() for q in result.split("Q") if q.strip()]
-    questions = [("Q" + q).strip() for q in questions]
-    st.session_state.questions = questions
-    st.session_state.step = 2
+        raw_questions = [q.strip() for q in result.split("\n\n") if q.strip()]
+        questions = [q.strip() for q in result.split("Q") if q.strip()]
+        questions = [("Q" + q).strip() for q in questions]
+        st.session_state.questions = questions
+        st.session_state.step = 2
 
 
 # STEP 2: Show Questions
