@@ -1,46 +1,43 @@
-import os
 import streamlit as st
 from huggingface_hub import InferenceClient
+import os
 
-# Setup the client
-client = InferenceClient(
-    provider="nscale",
-    api_key=st.secrets["hf_token"],
-)
-
-# Initialize session state
+# Initialize session state variables if not already done
 if "step" not in st.session_state:
     st.session_state.step = 0
-if "age" not in st.session_state:
-    st.session_state.age = ""
-if "interest" not in st.session_state:
-    st.session_state.interest = ""
 if "questions" not in st.session_state:
     st.session_state.questions = []
 if "answers" not in st.session_state:
     st.session_state.answers = []
-if "current_question" not in st.session_state:
-    st.session_state.current_question = 0
+if "current_q" not in st.session_state:
+    st.session_state.current_q = 0
 
-# Step 0: Get user input
+# Hugging Face inference client setup
+client = InferenceClient(
+    provider="nscale",
+    api_key=os.environ["hf_token"],
+)
+
+# Title and subtitle
+st.title("\U0001F393 AI-Powered Career Counselor")
+st.markdown("Answer a few smart questions and let AI guide your future!")
+
+# Step 0: Ask for age and interest
 if st.session_state.step == 0:
-    st.title("🎓 AI-Powered Career Counselor")
-    st.write("Answer a few smart questions and let AI guide your future!")
-
-    st.session_state.age = st.text_input("Enter your age:")
-    st.session_state.interest = st.text_input("What are you interested in?")
-
-    if st.button("Start Quiz") and st.session_state.age and st.session_state.interest:
+    age = st.number_input("Enter your age:", min_value=10, max_value=100, key="age")
+    interest = st.text_input("What are your interests? (e.g., technology, art, science)", key="interest")
+    if st.button("Start Quiz") and interest:
         st.session_state.step = 1
         st.rerun()
 
-# Step 1: Generate quiz
+# Step 1: Generate questions using the AI
 elif st.session_state.step == 1:
     prompt = (
-        f"Generate 3 short, fun multiple choice questions for a career quiz "
-        f"for a {st.session_state.age}-year-old interested in {st.session_state.interest}. "
-        f"Each question should have 4 options labeled A), B), C), D)."
+        f"Generate 5 multiple choice questions for a career quiz for a {st.session_state.age}-year-old "
+        f"interested in {st.session_state.interest}. Each question should be clearly formatted like:\n"
+        f"Q: [Question Text]\nA) Option 1\nB) Option 2\nC) Option 3\nD) Option 4"
     )
+
     with st.spinner("Generating your custom quiz..."):
         response = client.chat.completions.create(
             model="meta-llama/Llama-3.1-8B-Instruct",
@@ -48,36 +45,49 @@ elif st.session_state.step == 1:
         )
         result = response.choices[0].message.content.strip()
 
-        # Clean and split into questions
-        question_blocks = [q.strip() for q in result.split("\n\n") if "A)" in q]
-        st.session_state.questions = question_blocks
+        # Parse questions
+        blocks = result.split("Q: ")
+        questions = []
+        for block in blocks[1:]:
+            lines = block.strip().split("\n")
+            question_text = lines[0].strip()
+            options = [line[3:].strip() for line in lines[1:5]]
+            questions.append({
+                "question": question_text,
+                "options": options
+            })
+
+        st.session_state.questions = questions
         st.session_state.step = 2
-        st.session_state.current_question = 0
+        st.session_state.current_q = 0
         st.session_state.answers = []
         st.rerun()
 
-# Step 2: Display questions one by one
+# Step 2: Show one question at a time
 elif st.session_state.step == 2:
-    if st.session_state.current_question < len(st.session_state.questions):
-        q = st.session_state.questions[st.session_state.current_question]
-        parts = q.split("A)")
-        question_text = parts[0].strip()
-        options_block = "A)" + parts[1] if len(parts) > 1 else ""
-        options = [opt.strip() for opt in options_block.split("\n") if opt.strip()]
+    q = st.session_state.questions[st.session_state.current_q]
+    st.markdown(f"**Question {st.session_state.current_q + 1}: {q['question']}**")
 
-        st.markdown(f"**Question {st.session_state.current_question + 1}:** {question_text}")
-        selected_option = st.radio("Choose an answer:", ["A", "B", "C", "D"], key=st.session_state.current_question)
+    answer = st.radio("Choose an answer:", ["A", "B", "C", "D"], key=f"q_{st.session_state.current_q}")
 
-        if st.button("Next"):
-            st.session_state.answers.append(selected_option)
-            st.session_state.current_question += 1
-            st.rerun()
-    else:
-        st.session_state.step = 3
+    if st.button("Next"):
+        st.session_state.answers.append(answer)
+        st.session_state.current_q += 1
+
+        if st.session_state.current_q >= len(st.session_state.questions):
+            st.session_state.step = 3
         st.rerun()
 
-# Step 3: Show results
+# Step 3: Show summary or result (placeholder)
 elif st.session_state.step == 3:
     st.success("🎉 Quiz Completed!")
-    st.write("Your answers:", st.session_state.answers)
-    st.write("You can now add logic to generate career recommendations based on your answers!")
+    st.write("You selected:")
+    for idx, ans in enumerate(st.session_state.answers):
+        st.write(f"Q{idx+1}: {ans}")
+
+    # Restart option
+    if st.button("Restart Quiz"):
+        st.session_state.step = 0
+        st.session_state.answers = []
+        st.session_state.questions = []
+        st.rerun()
