@@ -70,7 +70,7 @@ elif st.session_state.step == 2:
     if q_idx < len(questions):
         q = questions[q_idx]
         op = []
-        st.markdown(f"**Question {q_idx + 1}: {q['question']}**")
+        st.header(f"Question {q_idx + 1}: {q['question']}")
         for key, value in q['options'].items():
             op.append(f"{key}) {value}")
 
