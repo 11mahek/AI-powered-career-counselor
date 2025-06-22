@@ -29,9 +29,8 @@ if st.session_state.step == 0:
     st.session_state.age = age
     st.session_state.interest = interest
     st.session_state.step = 1
-# STEP 1 : Generate Quiz
 elif st.session_state == 1:
-    with st.spinner("Creating personalized quiz...."):
+  with st.spinner("Creating personalized quiz...."):
         prompt = (
             f"Create 3 short and fun multiple-choice questions for a career interest quiz for a {st.session_state.age}-year-old"
             f"Interested in {st.session_state.interest}. Each question should have 4 options(A,B,C,D). Format as:\n"
