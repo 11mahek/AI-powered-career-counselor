@@ -49,28 +49,32 @@ elif st.session_state.step == 1:
         )
         result = response.choices[0].message.content.strip()
         raw_questions = [q.strip() for q in result.split("\n\n") if q.strip()]
-        st.session_state.questions = raw_questions
+        questions = [q.strip() for q in result.split("Q") if q.strip()]
+        questions = [("Q" + q).strip() for q in questions]
+        st.session_state.questions = questions
         st.session_state.step = 2
+
 
 # STEP 2: Show Questions
 elif st.session_state.step == 2:
-    q_index = len(st.session_state.answers)
-    total = len(st.session_state.questions)
-
-    # Extract question and options
-    lines = st.session_state.questions[q_index].split("\n")
-    question_text = lines[0]
-    options = [line[3:].strip() for line in lines[1:] if line[:2] in ["A)", "B)", "C)", "D)"]]
-
-    st.markdown(f"**Q{q_index+1}: {question_text}**")
-    selected = st.radio("Choose your answer:", ["A", "B", "C", "D"], key=f"q{q_index}")
-
+    current_q = len(st.session_state.answers)
+    total_qs = len(st.session_state.questions)
+    if current_q >= total_qs:
+        st.session_state.step = 3
+        st.rerun()
+    q_text = st.session_state.questions[current_q]
+    lines = q_text.split("\n")
+    question = lines[0]  # Q1: ...
+    options = []
+    for line in lines[1:]:
+        if line.strip() and line.strip()[0] in ["A", "B", "C", "D"]:
+        # remove A. B. etc and just take option
+            options.append(line.strip()[2:].strip())
+    st.markdown(f"**{question}**")
+    selected = st.radio("Choose an option:", ["A", "B", "C", "D"], key=f"q{current_q}")
     if st.button("Next"):
         st.session_state.answers.append(selected)
-        if q_index + 1 < total:
-            st.rerun()
-        else:
-            st.session_state.step = 3
+        st.rerun()
 
 # STEP 3: Move to career suggestion (next phase)
 elif st.session_state.step == 3:
