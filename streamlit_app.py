@@ -28,7 +28,7 @@ if st.session_state.step == 0:
     st.session_state.interest = st.text_input("What are you interested in? (e.g., tech, art, sports)")
     if st.button("Start Quiz") and st.session_state.interest:
         st.session_state.step = 1
-        st.experimental_rerun()
+        st.rerun()
 
 # Step 1 – Generate Quiz
 elif st.session_state.step == 1:
@@ -78,7 +78,7 @@ elif st.session_state.step == 2:
             st.warning("⚠️ Options not found for this question.")
     else:
         st.session_state.step = 3
-        st.experimental_rerun()
+        st.rerun()
 
 # Step 3 – Show Completion Message
 elif st.session_state.step == 3:
