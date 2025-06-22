@@ -31,21 +31,21 @@ if st.session_state.step == 0:
     st.session_state.step = 1
 elif st.session_state == 1:
   with st.spinner("Creating personalized quiz...."):
-        prompt = (
-            f"Create 3 short and fun multiple-choice questions for a career interest quiz for a {st.session_state.age}-year-old"
-            f"Interested in {st.session_state.interest}. Each question should have 4 options(A,B,C,D). Format as:\n"
-            f"Q1: <question>\nA. ... \nB. ... \nC. ... \nD. ... \n\nQ2: <question> ......"
-            )
-        try:
-            response = client.chat.completions.create(
-                model="meta-llama/Llama-3.1-8B-Instruct",
-                messages=[{"role": "user", "content": prompt}]
-                )
-            result = response.choices[0].message.content
-            st.session_state.questions = result.strip().split("\n\n")
-            st.session_state.step = 2 
-        except Exception as e:
-                st.error(f"❌ Failed to generate quiz: {str(e)}")
+    prompt = (
+      f"Create 3 short and fun multiple-choice questions for a career interest quiz for a {st.session_state.age}-year-old"
+      f"Interested in {st.session_state.interest}. Each question should have 4 options(A,B,C,D). Format as:\n"
+      f"Q1: <question>\nA. ... \nB. ... \nC. ... \nD. ... \n\nQ2: <question> ......"
+    )
+    try:
+      response = client.chat.completions.create(
+      model="meta-llama/Llama-3.1-8B-Instruct",
+      messages=[{"role": "user", "content": prompt}]
+      )
+      result = response.choices[0].message.content
+      st.session_state.questions = result.strip().split("\n\n")
+      st.session_state.step = 2 
+    except Exception as e:
+      st.error(f"❌ Failed to generate quiz: {str(e)}")
 elif st.session_state == 2:
     current_q = len(st.session_state.answers)
     if current_q < len(st.session_state.questions):
