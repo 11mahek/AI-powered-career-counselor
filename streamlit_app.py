@@ -45,16 +45,17 @@ elif st.session_state.step == 1:
 
         try:
             response = client.chat.completions.create(
-                model="meta-llama/Llama-3.1-8B-Instruct",
-                messages=[{"role": "user", "content": prompt}]
+            model="meta-llama/Llama-3.1-8B-Instruct",
+            messages=[{"role": "user", "content": prompt}]
             )
             result = response.choices[0].message.content
-            st.session_state.questions = result.strip().split("\n\n")
-            st.session_state.step = 2
 
+    # Debug print result
+            st.code(result, language="markdown")
+            st.session_state.questions = result.strip().split("\n\n") 
+            st.session_state.step = 2
         except Exception as e:
             st.error(f"❌ Failed to generate quiz: {str(e)}")
-
 # STEP 2: Show Questions
 elif st.session_state.step == 2:
     current_q = len(st.session_state.answers)
