@@ -49,10 +49,11 @@ elif st.session_state.step == 1:
                 messages=[{"role": "user", "content": prompt}]
             )
             result = response.choices[0].message.content.strip()
+            if not result.startswith("Q"):
+                result = result[result.find("Q"):]
+                questions = [q.strip() for q in result.split("Q") if q.strip()]
+                questions = [("Q" + q).strip() for q in questions]
 
-            # Splitting the questions properly
-            questions = [q.strip() for q in result.split("Q") if q.strip()]
-            questions = [("Q" + q).strip() for q in questions]
 
             # Save and go to next step
             st.session_state.questions = questions
