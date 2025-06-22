@@ -59,19 +59,39 @@ elif st.session_state.step == 1:
 # STEP 2: Show Questions
 elif st.session_state.step == 2:
     current_q = len(st.session_state.answers)
-    if current_q < len(st.session_state.questions):
-        st.markdown(f"**{st.session_state.questions[current_q]}**")
-        answer = st.radio("Choose an option:", ["A", "B", "C", "D"], key=f"q{current_q}")
 
-        if st.button("Next"):
-            st.session_state.answers.append(answer)
+    # Get current question block like:
+    # Q1: What do you enjoy?
+    # A) ...
+    # B) ...
+    # C) ...
+    # D) ...
+    block = st.session_state.questions[current_q]
 
-            if len(st.session_state.answers) < len(st.session_state.questions):
-                st.rerun()
-            else:
-                st.session_state.step = 3
-    else:
-        st.session_state.step = 3
+    # Split into lines
+    lines = block.strip().split("\n")
+
+    # First line is the question
+    question = lines[0].strip()
+
+    # Next lines are options
+    options = []
+    for line in lines[1:]:
+        if line.strip():
+            opt = line.split(")", 1)[-1].strip()  # remove A), B)... etc
+            options.append(opt)
+
+    # Display clean UI
+    st.markdown(f"**{question}**")
+    answer = st.radio("Choose an option:", ["A", "B", "C", "D"], key=f"q{current_q}")
+
+    if st.button("Next"):
+        st.session_state.answers.append(answer)
+        if current_q + 1 < len(st.session_state.questions):
+            st.rerun()
+        else:
+            st.session_state.step = 3
+
 
 # STEP 3: Move to career suggestion (next phase)
 elif st.session_state.step == 3:
