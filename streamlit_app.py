@@ -41,15 +41,15 @@ elif st.session_state == 1:
             f"Interested in {st.session_state.interest}. Each question should have 4 options(A,B,C,D). Format as:\n"
             f"Q1: <question>\nA. ... \nB. ... \nC. ... \nD. ... \n\nQ2: <question> ......"
             )
-            try:
-                response = client.chat.completions.create(
-                    model="meta-llama/Llama-3.1-8B-Instruct",
-                    messages=[{"role": "user", "content": prompt}]
-                    )
-                result = response.choices[0].message.content
-                st.session_state.questions = result.strip().split("\n\n")
-                st.session_state.step = 2 
-            except Exception as e:
+        try:
+            response = client.chat.completions.create(
+                model="meta-llama/Llama-3.1-8B-Instruct",
+                messages=[{"role": "user", "content": prompt}]
+                )
+            result = response.choices[0].message.content
+            st.session_state.questions = result.strip().split("\n\n")
+            st.session_state.step = 2 
+        except Exception as e:
                 st.error(f"❌ Failed to generate quiz: {str(e)}")
 elif st.session_state == 2:
     current_q = len(st.session_state.answers)
