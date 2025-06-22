@@ -57,7 +57,7 @@ elif st.session_state.step == 1:
 
     st.session_state.questions = parsed_questions
     st.session_state.step = 2
-    st.experimental_rerun()
+    st.rerun()
 
 # Step 2 – Display Quiz
 elif st.session_state.step == 2:
