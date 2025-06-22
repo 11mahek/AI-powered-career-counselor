@@ -32,7 +32,7 @@ if st.session_state.step == 0:
 
     if st.button("Start Quiz") and st.session_state.age and st.session_state.interest:
         st.session_state.step = 1
-        st.experimental_rerun()
+        st.rerun()
 
 # Step 1: Generate quiz
 elif st.session_state.step == 1:
@@ -54,7 +54,7 @@ elif st.session_state.step == 1:
         st.session_state.step = 2
         st.session_state.current_question = 0
         st.session_state.answers = []
-        st.experimental_rerun()
+        st.rerun()
 
 # Step 2: Display questions one by one
 elif st.session_state.step == 2:
@@ -71,10 +71,10 @@ elif st.session_state.step == 2:
         if st.button("Next"):
             st.session_state.answers.append(selected_option)
             st.session_state.current_question += 1
-            st.experimental_rerun()
+            st.rerun()
     else:
         st.session_state.step = 3
-        st.experimental_rerun()
+        st.rerun()
 
 # Step 3: Show results
 elif st.session_state.step == 3:
