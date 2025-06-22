@@ -36,45 +36,62 @@ if st.session_state.step == 0:
 
 # STEP 1: Generate Quiz
 elif st.session_state.step == 1:
-    # Step 1: Generate quiz and store full block
     prompt = (
         f"Generate 3 short, fun multiple choice questions for a career quiz "
         f"for a {st.session_state.age}-year-old interested in {st.session_state.interest}. "
         f"Each question should have 4 options labeled A), B), C), D)."
     )
-    with st.spinner("Generating your custom quiz..."):
-        response = client.chat.completions.create(
-            model="meta-llama/Llama-3.1-8B-Instruct",
-            messages=[{"role": "user", "content": prompt}]
-        )
-        result = response.choices[0].message.content.strip()
-        raw_questions = [q.strip() for q in result.split("\n\n") if q.strip()]
-        questions = [q.strip() for q in result.split("Q") if q.strip()]
-        questions = [("Q" + q).strip() for q in questions]
-        st.session_state.questions = questions
-        st.session_state.step = 2
 
+    with st.spinner("Generating your custom quiz..."):
+        try:
+            response = client.chat.completions.create(
+                model="meta-llama/Llama-3.1-8B-Instruct",
+                messages=[{"role": "user", "content": prompt}]
+            )
+            result = response.choices[0].message.content.strip()
+
+            # Splitting the questions properly
+            questions = [q.strip() for q in result.split("Q") if q.strip()]
+            questions = [("Q" + q).strip() for q in questions]
+
+            # Save and go to next step
+            st.session_state.questions = questions
+            st.session_state.step = 2
+            st.rerun()
+
+        except Exception as e:
+            st.error(f"Error generating quiz: {e}")
 
 # STEP 2: Show Questions
 elif st.session_state.step == 2:
     current_q = len(st.session_state.answers)
     total_qs = len(st.session_state.questions)
+
     if current_q >= total_qs:
         st.session_state.step = 3
         st.rerun()
+
     q_text = st.session_state.questions[current_q]
     lines = q_text.split("\n")
-    question = lines[0]  # Q1: ...
+
+    question = lines[0].strip()
+
+    # Extract answer choices
     options = []
     for line in lines[1:]:
-        if line.strip() and line.strip()[0] in ["A", "B", "C", "D"]:
-        # remove A. B. etc and just take option
-            options.append(line.strip()[2:].strip())
+        line = line.strip()
+        if line.startswith(("A", "B", "C", "D")):
+            # Safely strip off "A)", "B)" etc.
+            option = line[2:].strip() if ")" in line else line
+            options.append(option)
+
     st.markdown(f"**{question}**")
-    selected = st.radio("Choose an option:", ["A", "B", "C", "D"], key=f"q{current_q}")
+    selected = st.radio("Choose an answer:", ["A", "B", "C", "D"], key=f"q{current_q}")
+
     if st.button("Next"):
         st.session_state.answers.append(selected)
         st.rerun()
+
 
 # STEP 3: Move to career suggestion (next phase)
 elif st.session_state.step == 3:
