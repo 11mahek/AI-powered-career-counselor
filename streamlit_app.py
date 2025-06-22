@@ -70,7 +70,7 @@ elif st.session_state.step == 2:
 
     if q_idx < len(questions):
         q = questions[q_idx]
-        st.markdown(f"**Question {q_idx + 1}: {q['question']}**\n{q['options']}")
+        st.markdown(f"**Question {q_idx + 1}: {q['question']}\n{q['options']}**")
 
         selected = st.radio("Choose an answer:", list(q["options"].keys()), key=f"q{q_idx}")
 
