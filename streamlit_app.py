@@ -30,10 +30,6 @@ if st.session_state.step == 0:
     st.session_state.interest = interest
     st.session_state.step = 1
 # STEP 1 : Generate Quiz
-import streamlit as st
-client = {}
-if True:
-    pass
 elif st.session_state == 1:
     with st.spinner("Creating personalized quiz...."):
         prompt = (
