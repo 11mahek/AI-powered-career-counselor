@@ -77,7 +77,7 @@ elif st.session_state.step == 2:
         else:
             st.warning("⚠️ Options not found for this question.")
     else:
-        st.session_state.step = 3
+    #     st.session_state.step = 3
         st.rerun()
 
 # Step 3 – Show Completion Message
