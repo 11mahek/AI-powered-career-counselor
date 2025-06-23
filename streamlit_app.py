@@ -1,4 +1,4 @@
-import os
+mimport os
 import streamlit as st
 from huggingface_hub import InferenceClient
 
@@ -17,6 +17,7 @@ if "step" not in st.session_state:
     st.session_state.questions = []
     st.session_state.answers = []
     st.session_state.current_q = 0
+    st.session_state.suggest_career = ""
 
 st.title("🎓 AI-Powered Career Counselor")
 st.write("Answer a few smart questions and let AI guide your future!")
@@ -88,9 +89,20 @@ elif st.session_state.step == 2:
 # Step 3: Completion
 elif st.session_state.step == 3:
     st.success("🎉 You’ve completed the quiz!")
-    st.write("Your answers:", st.session_state.answers)
-
-    if st.button("Restart"):
-        for key in st.session_state.keys():
-            del st.session_state[key]
-        st.rerun()
+    if st.button("Career"):
+        prompt = (
+            f"Based on these answers {st.session_state.answers}, the user is a {st.session_state.age}-year-old "
+            f"interested in {st.session_state.interest}. Suggest 4-5 most suitable career paths with reasons, "
+            f"market trends, and required skills for each."
+        )
+        with st.spinner("Analyzing your answer..."):
+            response = client.chat.completions.create(
+            model = "mete-llama/llama-3.1-8B-Instruct",
+            messages = [{"role":"user","content":prompt}]
+            )
+            result = response.choices[0].message.content.strip()
+            st.session_state.suggest_career = result
+            st.session_state.step = 4
+elif st.session_state.step == 4:
+    st.write("**Analyze your Answer, Result")
+    st.write(st.session_state.suggest_career)
