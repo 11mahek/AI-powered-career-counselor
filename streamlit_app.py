@@ -179,7 +179,8 @@ elif st.session_state.step == 5:
 
     for block in st.session_state.skill_gap.split("Career"):
         if block.strip():
-            st.expander(f"🧩 {block}")
+            with st.expander("Click to view"):
+                st.markown(block.strip())
 
 elif st.session_state.step == 6:
     st.subheader("📍 Your Personalized Career Roadmap")
