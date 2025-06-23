@@ -144,5 +144,10 @@ elif st.session_state.step == 5:
     
     # Format and display each career skill block separately
     for block in st.session_state.skill_gap.split("Career"):
-        st.markdown(f"🧩 {block.strip()}")
-        st.markdown("---")
+        l = []
+        l = block 
+        if l[0] == "":
+            pass
+        else:
+            st.markdown(f"🧩 {block.strip()}")
+            st.markdown("---")
