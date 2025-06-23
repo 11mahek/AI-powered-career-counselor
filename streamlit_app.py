@@ -179,8 +179,7 @@ elif st.session_state.step == 5:
 
     for block in st.session_state.skill_gap.split("Career"):
         if block.strip():
-            st.markdown(f"🧩 {block.strip()}")
-            st.markdown("---")
+            st.expander(f"🧩 {block}")
 
 elif st.session_state.step == 6:
     st.subheader("📍 Your Personalized Career Roadmap")
