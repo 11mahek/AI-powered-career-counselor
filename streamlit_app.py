@@ -94,19 +94,42 @@ elif st.session_state.step == 3:
             f"Based on these answers {st.session_state.answers}, the user is a {st.session_state.age}-year-old "
             f"interested in {st.session_state.interest}. Suggest 4-5 most suitable career paths with reasons, "
             f"market trends, and required skills for each."
-            "Show Market trend, Reason, Required skill on different line paragrph format, and add some emojis for good presentation"
+            "Show Market trend, Reason, Required skill on different line paragrph format for good presentation"
         )
         with st.spinner("Analyzing your answer..."):
             response = client.chat.completions.create(
-                model="meta-llama/Llama-3.1-8B-Instruct",  # ✅ FIXED MODEL NAME
+                model="meta-llama/Llama-3.1-8B-Instruct",  
                 messages=[{"role": "user", "content": prompt}]
             )
             result = response.choices[0].message.content.strip()
             st.session_state.suggest_career = result
             st.session_state.step = 4
-        st.rerun()  # ✅ Make sure to refresh to step 4
+        st.rerun()  
 
 elif st.session_state.step == 4:
     st.write("**📊 Career Analysis Based on Your Answers:**")
     st.write(st.session_state.suggest_career)
-
+    if st.button("Skill Gaps"):
+         prompt = (
+            f"The user is {st.session_state.age} years old and interested in {st.session_state.interest}. "
+            f"They answered the quiz with: {st.session_state.answers}. "
+            f"Based on the following career suggestions:\n{st.session_state.suggest_career}\n\n"
+            f"Please analyze the required skills for each career and compare with user's answers and interest. "
+            f"Provide a breakdown like:\n\n"
+            f"- Career: X\n"
+            f"- Required Skills: ...\n"
+            f"- Likely Skills User Has: ...\n"
+            f"- Missing Skills: ..."
+        )
+        with st.spinner("Analyzing Skill gaps..."):
+            response = client.chat.completions.create(
+                model = "meta-llama/Llama-3.1-8B-Instruct",
+                messages = [{'role':'user','content':prompt}]
+            )
+            skill_analysis = response.choices[0].message.content.strip()
+            st.session_state.skill_gap = skill_analysis
+            st.session_state.step = 5
+        st.rerun()
+elif st.session_state.step == 5:
+    st.subheader("🔍 Skill Gap Analyzer")
+    st.write(st.session_state.skill_gap)
