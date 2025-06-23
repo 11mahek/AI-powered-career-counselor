@@ -188,23 +188,13 @@ elif st.session_state.step == 4:
 # Step 5: Display Skill Gap Analysis
 elif st.session_state.step == 5:
     st.subheader("🧠 Skill Gap Analyzer Result")
-    st.markdown("🌿 Based on the user's interests and answers, here's a breakdown for each career:\n")
+    st.markdown("💡 Here's a breakdown of your strengths and areas for growth based on your answers:")
 
-    # Process each career block after "Career:"
-    skill_blocks = st.session_state.skill_gap.split("Career:")
-    for block in skill_blocks:
-        block = block.strip()
-        if block:  # skip if it's empty
-            formatted = (
-                f"🧠 **Career:** {block}"
-                .replace("Required Skills:", "\n\n🛠️ **Required Skills:**")
-                .replace("Likely Skills User Has:", "\n\n✅ **Likely Skills User Has:**")
-                .replace("Missing Skills:", "\n\n⚠️ **Missing Skills:**")
-            )
-            st.markdown(formatted)
-            st.markdown("---")
-    
-    # Restart option
+    # Just display raw markdown without splitting if response format is good
+    st.markdown("---")
+    st.markdown(st.session_state.skill_gap)
+    st.markdown("---")
+
     if st.button("🔄 Restart"):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
