@@ -108,6 +108,7 @@ elif st.session_state.step == 3:
 # Step 4: Display career suggestions and Skill Gap button
 elif st.session_state.step == 4:
     st.subheader("📊 Career Analysis Based on Your Answers:")
+    st.write("👇😊Scroll Down for skill gaps analyzing.")
     st.markdown(st.session_state.suggest_career)
 
     if st.button("🔍 Skill Gap Analyzer"):
