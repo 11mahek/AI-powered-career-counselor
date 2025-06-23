@@ -177,7 +177,7 @@ elif st.session_state.step == 5:
     st.markdown("### 🔍 Skill Gap Breakdown")
     st.markdown("Here's a breakdown based on your answers and suggestions:")
     with st.expander("Click to view"):
-        st.markdown(st.session_state.skill_gap
+        st.markdown(st.session_state.skill_gap)
 
 elif st.session_state.step == 6:
     st.subheader("📍 Your Personalized Career Roadmap")
