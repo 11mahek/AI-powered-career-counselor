@@ -94,7 +94,7 @@ elif st.session_state.step == 3:
             f"Based on these answers {st.session_state.answers}, the user is a {st.session_state.age}-year-old "
             f"interested in {st.session_state.interest}. Suggest 4-5 most suitable career paths with reasons, "
             f"market trends, and required skills for each."
-            "Show market trend, reason, required skill on different line format, not like paragraph."
+            "Show Market trend, Reason, Required skill on different line paragrph format for good presentation"
         )
         with st.spinner("Analyzing your answer..."):
             response = client.chat.completions.create(
