@@ -185,17 +185,22 @@ elif st.session_state.step == 4:
     st.markdown("_(Scroll down to review your full personalized suggestions)_")
     st.markdown(st.session_state.suggest_career)
 
+# Step 5: Display Skill Gap Analysis
 elif st.session_state.step == 5:
     st.subheader("🧠 Skill Gap Analyzer Result")
+    st.markdown("🌿 Based on the user's interests and answers, here's a breakdown for each career:\n")
 
-    st.markdown("Here’s a personalized breakdown of your strengths, and the areas you might want to upgrade:")
-
-    # Format and highlight each block
-    for block in st.session_state.skill_gap.split("Career:"):
-        if block.strip():  # skip empty parts
-            formatted = "🎯 **Career:**" + block.replace("Required Skills:", "🛠️ **Required Skills:**") \
-                                               .replace("Likely Skills User Has:", "✅ **Likely Skills:**") \
-                                               .replace("Missing Skills:", "⚠️ **Missing Skills:**")
+    # Process each career block after "Career:"
+    skill_blocks = st.session_state.skill_gap.split("Career:")
+    for block in skill_blocks:
+        block = block.strip()
+        if block:  # skip if it's empty
+            formatted = (
+                f"🧠 **Career:** {block}"
+                .replace("Required Skills:", "\n\n🛠️ **Required Skills:**")
+                .replace("Likely Skills User Has:", "\n\n✅ **Likely Skills User Has:**")
+                .replace("Missing Skills:", "\n\n⚠️ **Missing Skills:**")
+            )
             st.markdown(formatted)
             st.markdown("---")
     
