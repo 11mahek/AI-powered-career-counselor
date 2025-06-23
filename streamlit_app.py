@@ -100,7 +100,7 @@ elif st.session_state.step == 3:
             response = client.chat.completions.create(
                 model="meta-llama/Llama-3.1-8B-Instruct",  
                 messages=[{"role": "user", "content": prompt}]
-            )
+            ) 
             result = response.choices[0].message.content.strip()
             st.session_state.suggest_career = result
             st.session_state.step = 4
@@ -149,3 +149,58 @@ elif st.session_state.step == 5:
         else:
             st.markdown(f"🧩 {block.strip()}")
             st.markdown("---")
+# Step 4: Display career suggestions and Skill Gap button
+elif st.session_state.step == 4:
+    st.subheader("📊 Career Analysis Based on Your Answers:")
+    
+    # Prompt for Skill Gap Analyzer
+    st.markdown("### 🔍 Want deeper insights?")
+    st.markdown("Click the button below to analyze your **Skill Gaps** based on your answers and suggested careers.")
+    
+    if st.button("🔍 Analyze Skill Gaps"):
+        prompt = (
+            f"The user is {st.session_state.age} years old and interested in {st.session_state.interest}. "
+            f"They answered the quiz with: {st.session_state.answers}. "
+            f"Based on the following career suggestions:\n{st.session_state.suggest_career}\n\n"
+            f"Please analyze the required skills for each career and compare with user's answers and interest. "
+            f"Provide a breakdown like:\n\n"
+            f"- Career: X\n"
+            f"- Required Skills: ...\n"
+            f"- Likely Skills User Has: ...\n"
+            f"- Missing Skills: ..."
+        )
+        with st.spinner("Analyzing Skill Gaps..."):
+            response = client.chat.completions.create(
+                model="meta-llama/Llama-3.1-8B-Instruct",
+                messages=[{'role': 'user', 'content': prompt}]
+            )
+            skill_analysis = response.choices[0].message.content.strip()
+            st.session_state.skill_gap = skill_analysis
+            st.session_state.step = 5
+        st.rerun()
+
+    # 📜 Career Suggestions Section
+    st.markdown("---")
+    st.markdown("### 📄 Suggested Career Paths")
+    st.markdown("_(Scroll down to review your full personalized suggestions)_")
+    st.markdown(st.session_state.suggest_career)
+
+elif st.session_state.step == 5:
+    st.subheader("🧠 Skill Gap Analyzer Result")
+
+    st.markdown("Here’s a personalized breakdown of your strengths, and the areas you might want to upgrade:")
+
+    # Format and highlight each block
+    for block in st.session_state.skill_gap.split("Career:"):
+        if block.strip():  # skip empty parts
+            formatted = "🎯 **Career:**" + block.replace("Required Skills:", "🛠️ **Required Skills:**") \
+                                               .replace("Likely Skills User Has:", "✅ **Likely Skills:**") \
+                                               .replace("Missing Skills:", "⚠️ **Missing Skills:**")
+            st.markdown(formatted)
+            st.markdown("---")
+    
+    # Restart option
+    if st.button("🔄 Restart"):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
