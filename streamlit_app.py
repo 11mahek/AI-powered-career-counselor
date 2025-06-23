@@ -184,10 +184,8 @@ elif st.session_state.step == 6:
 
     with st.expander("📋 Click to view your complete roadmap"):
         st.markdown(st.session_state.roadmap)
-    with st.expander("💡 Bonus Tips & Resources"):
+    with st.expander("💡 Bonus Tips"):
         st.markdown("🚀 Stay consistent, build projects, and follow industry trends...")
-
-
     if st.button("🔄 Restart Journey"):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
