@@ -105,12 +105,13 @@ elif st.session_state.step == 3:
             st.session_state.suggest_career = result
             st.session_state.step = 4
         st.rerun()  
-
+# Step 4: Display career suggestions and Skill Gap button
 elif st.session_state.step == 4:
-    st.write("**📊 Career Analysis Based on Your Answers:**")
-    st.write(st.session_state.suggest_career)
-    if st.button("Skill Gaps"):
-         prompt = (
+    st.subheader("📊 Career Analysis Based on Your Answers:")
+    st.markdown(st.session_state.suggest_career)
+
+    if st.button("🔍 Skill Gap Analyzer"):
+        prompt = (
             f"The user is {st.session_state.age} years old and interested in {st.session_state.interest}. "
             f"They answered the quiz with: {st.session_state.answers}. "
             f"Based on the following career suggestions:\n{st.session_state.suggest_career}\n\n"
@@ -123,13 +124,19 @@ elif st.session_state.step == 4:
         )
         with st.spinner("Analyzing Skill Gaps..."):
             response = client.chat.completions.create(
-                model = "meta-llama/Llama-3.1-8B-Instruct",
-                messages = [{'role':'user','content':prompt}]
+                model="meta-llama/Llama-3.1-8B-Instruct",
+                messages=[{'role': 'user', 'content': prompt}]
             )
             skill_analysis = response.choices[0].message.content.strip()
             st.session_state.skill_gap = skill_analysis
             st.session_state.step = 5
         st.rerun()
+
 elif st.session_state.step == 5:
-    st.subheader("🔍 Skill Gap Analyzer")
-    st.write(st.session_state.skill_gap)
+    st.subheader("🧠 Skill Gap Analyzer Result")
+    st.markdown(st.session_state.skill_gap)
+
+    if st.button("🔄 Restart"):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
