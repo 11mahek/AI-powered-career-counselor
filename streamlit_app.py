@@ -36,8 +36,9 @@ if st.session_state.step == 0:
 # Step 1: Generate quiz
 elif st.session_state.step == 1:
     prompt = (
-        f"Generate 3 short and fun multiple-choice questions for a career quiz "
+        f"Generate multiple-choice questions for a person who completely confused in his life and person age is {st.session_state.age}"
         f"for a {st.session_state.age}-year-old interested in {st.session_state.interest}. "
+        "Generate enough multiple-choice questions so, we can easily suggest him best future career. "
         f"Each question should be standalone and include 4 answer options labeled A, B, C, and D. "
         f"Format the output as:\n"
         f"Q: <question text>\nA: <option 1>\nB: <option 2>\nC: <option 3>\nD: <option 4>\n"
