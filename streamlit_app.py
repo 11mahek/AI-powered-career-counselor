@@ -188,14 +188,54 @@ elif st.session_state.step == 4:
 # Step 5: Display Skill Gap Analysis
 elif st.session_state.step == 5:
     st.subheader("🧠 Skill Gap Analyzer Result")
-    st.markdown("💡 Here's a breakdown of your strengths and areas for growth based on your answers:")
+    
+    # ✨ NEW: Ask user's final career goal right away
+    st.markdown("### 🎯 Now it's your turn!")
+    st.markdown("Tell us what career you're most interested in now, and we'll generate a personalized roadmap for you.")
+    career_goal = st.text_input("Personalized Your career...")
 
-    # Just display raw markdown without splitting if response format is good
-    st.markdown("---")
-    st.markdown(st.session_state.skill_gap)
-    st.markdown("---")
+    if st.button("📍 Generate My Personalized Roadmap") and career_goal:
+        prompt = (
+            f"The user is {st.session_state.age} years old and interested in {st.session_state.interest}. "
+            f"They answered the quiz with: {st.session_state.answers}. "
+            f"Their current goal is to become a {career_goal}. "
+            "Please create a complete personalized roadmap for this goal including:\n"
+            "- Skills to learn (with order)\n"
+            "- Tools/Technologies to master\n"
+            "- Recommended courses or platforms (free/paid)\n"
+            "- Real-world projects to build\n"
+            "- Estimated timeline (beginner to job-ready)\n"
+            "- Certifications if needed\n"
+            "- Any bonus tips or habits for success"
+        )
+        with st.spinner("Generating your roadmap..."):
+            response = client.chat.completions.create(
+                model="meta-llama/Llama-3.1-8B-Instruct",
+                messages=[{"role": "user", "content": prompt}]
+            )
+            roadmap = response.choices[0].message.content.strip()
+            st.session_state.roadmap = roadmap
+            st.session_state.step = 6
+        st.rerun()
 
-    if st.button("🔄 Restart"):
+    # Now show skill gap AFTER the roadmap input
+    st.markdown("---")
+    st.markdown("### 🔍 Skill Gap Breakdown")
+    st.markdown("Here's a breakdown based on your answers and suggestions:")
+
+    for block in st.session_state.skill_gap.split("Career"):
+        if block.strip():
+            st.markdown(f"🧩 {block.strip()}")
+            st.markdown("---")
+
+elif st.session_state.step == 6:
+    st.subheader("📍 Your Personalized Career Roadmap")
+    st.markdown("Follow this guide to reach your goal step by step:")
+
+    with st.expander("📋 Click to view your complete roadmap"):
+        st.markdown(st.session_state.roadmap)
+
+    if st.button("🔄 Restart Journey"):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
