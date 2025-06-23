@@ -141,9 +141,9 @@ elif st.session_state.step == 4:
     
 elif st.session_state.step == 5:
     st.subheader("🧠 Skill Gap Analyzer Result")
-    st.markdown(st.session_state.skill_gap)
-
-    if st.button("🔄 Restart"):
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.rerun()
+    st.markdown("---")  # adds a nice horizontal line
+    
+    # Format and display each career skill block separately
+    for block in st.session_state.skill_gap.split("\n\n"):
+        st.markdown(f"🧩 {block.strip()}")
+        st.markdown("---")
