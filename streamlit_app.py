@@ -108,10 +108,10 @@ elif st.session_state.step == 3:
 # Step 4: Display career suggestions and Skill Gap button
 elif st.session_state.step == 4:
     st.subheader("📊 Career Analysis Based on Your Answers:")
-    st.subheader("👇😊Scroll Down for skill gaps analyzing button.")
-    st.markdown(st.session_state.suggest_career)
+    st.markdown("### 🔍 Want deeper insights?")
+    st.markdown("Click below to analyze your **Skill Gaps** based on your answers and suggested careers.")
 
-    if st.button("🔍 Skill Gap Analyzer"):
+    if st.button("🔍 Analyze Skill Gaps"):
         prompt = (
             f"The user is {st.session_state.age} years old and interested in {st.session_state.interest}. "
             f"They answered the quiz with: {st.session_state.answers}. "
@@ -133,6 +133,12 @@ elif st.session_state.step == 4:
             st.session_state.step = 5
         st.rerun()
 
+    # 📜 Career Suggestions (can be long, so show after button)
+    st.markdown("---")
+    st.markdown("### 📄 Suggested Career Paths")
+    st.markdown("_(Scroll to review full suggestions)_")
+    st.markdown(st.session_state.suggest_career)
+    
 elif st.session_state.step == 5:
     st.subheader("🧠 Skill Gap Analyzer Result")
     st.markdown(st.session_state.skill_gap)
