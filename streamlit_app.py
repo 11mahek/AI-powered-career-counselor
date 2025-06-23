@@ -121,7 +121,7 @@ elif st.session_state.step == 4:
             f"- Likely Skills User Has: ...\n"
             f"- Missing Skills: ..."
         )
-        with st.spinner("Analyzing Skill gaps..."):
+        with st.spinner("Analyzing Skill Gaps..."):
             response = client.chat.completions.create(
                 model = "meta-llama/Llama-3.1-8B-Instruct",
                 messages = [{'role':'user','content':prompt}]
