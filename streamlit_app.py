@@ -185,7 +185,7 @@ elif st.session_state.step == 6:
     with st.expander("📋 Click to view your complete roadmap"):
         st.markdown(st.session_state.roadmap)
     with st.expander("💡 Bonus Tips & Resources"):
-    st.markdown("🚀 Stay consistent, build projects, and follow industry trends...")
+        st.markdown("🚀 Stay consistent, build projects, and follow industry trends...")
 
 
     if st.button("🔄 Restart Journey"):
