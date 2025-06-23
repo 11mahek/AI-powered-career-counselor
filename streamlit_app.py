@@ -97,12 +97,15 @@ elif st.session_state.step == 3:
         )
         with st.spinner("Analyzing your answer..."):
             response = client.chat.completions.create(
-            model = "mete-llama/llama-3.1-8B-Instruct",
-            messages = [{"role":"user","content":prompt}]
+                model="meta-llama/Llama-3.1-8B-Instruct",  # ✅ FIXED MODEL NAME
+                messages=[{"role": "user", "content": prompt}]
             )
             result = response.choices[0].message.content.strip()
             st.session_state.suggest_career = result
             st.session_state.step = 4
+        st.rerun()  # ✅ Make sure to refresh to step 4
+
 elif st.session_state.step == 4:
-    st.write("**Analyze your Answer, Result")
+    st.write("**📊 Career Analysis Based on Your Answers:**")
     st.write(st.session_state.suggest_career)
+
