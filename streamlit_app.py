@@ -93,7 +93,7 @@ elif st.session_state.step == 3:
         prompt = (
             f"Based on these answers {st.session_state.answers}, the user is a {st.session_state.age}-year-old "
             f"interested in {st.session_state.interest}. Suggest 4-5 most suitable career paths with market trends and reasons for each."
-            "Show Market trend and Reason on different line paragrph format for good presentation"
+            "Show Market trend and Reason on different separate paragraph format for good presentation"
         )
         with st.spinner("Analyzing your answer..."):
             response = client.chat.completions.create(
