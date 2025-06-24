@@ -183,6 +183,24 @@ elif st.session_state.step == 6:
 
     with st.expander("📋 Click to view your complete roadmap"):
         st.markdown(st.session_state.roadmap)
+    class PDF(FPDF):
+        def header(self):
+            self.set_font("Arial", "B", 14)
+            self.cell(200, 10, "Your Personalized Career Roadmap", ln=True, align="C")
+        def chapter_body(self, text):
+            self.set_font("Arial", "", 12)
+            self.multi_cell(0, 10, text)
+    pdf = PDF()
+    pdf.add_page()
+    pdf.chapter_body(st.session_state.roadmap)
+    pdf_output = pdf.output(dest='S').encode('latin-1')
+    b64 = base64.b64encode(pdf_output).decode()
+    st.markdown(
+        f'<a href="data:application/octet-stream;base64,{b64}" download="My_Career_Roadmap.pdf">'
+        f'📥 <button style="background-color:#4CAF50;color:white;padding:10px;border:none;border-radius:5px;">Download Roadmap as PDF</button>'
+        f'</a>',
+        unsafe_allow_html=True
+    )
     with st.expander("💡 Bonus Tips"):
         st.markdown("🚀 Stay consistent, build projects, and follow industry trends...")
     if st.button("🔄 Restart Journey"):
