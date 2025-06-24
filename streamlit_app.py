@@ -1,6 +1,8 @@
 import os
 import streamlit as st
 from huggingface_hub import InferenceClient
+from fpdf import FPDF
+import base64
 
 # Hugging Face Token from secrets
 HF_TOKEN = st.secrets["hf_token"]
