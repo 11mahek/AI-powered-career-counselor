@@ -92,9 +92,8 @@ elif st.session_state.step == 3:
     if st.button("Career"):
         prompt = (
             f"Based on these answers {st.session_state.answers}, the user is a {st.session_state.age}-year-old "
-            f"interested in {st.session_state.interest}. Suggest 4-5 most suitable career paths with reasons, "
-            f"market trends, and required skills for each."
-            "Show Market trend, Reason, Required skill on different line paragrph format for good presentation"
+            f"interested in {st.session_state.interest}. Suggest 4-5 most suitable career paths with market trends and reasons for each."
+            "Show Market trend and Reason on different line paragrph format for good presentation"
         )
         with st.spinner("Analyzing your answer..."):
             response = client.chat.completions.create(
@@ -121,7 +120,7 @@ elif st.session_state.step == 4:
             f"- Career: X\n"
             f"- Required Skills: ...\n"
             f"- Likely Skills User Has: ...\n"
-            f"- Missing Skills: ..."
+            f"- Missing Skills: ..." 
         )
         with st.spinner("Analyzing Skill Gaps..."):
             response = client.chat.completions.create(
