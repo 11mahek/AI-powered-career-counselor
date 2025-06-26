@@ -4,12 +4,12 @@ A smart, personalized career guidance tool powered by Meta LLaMA 3 and Streamlit
 AI-Powered Career Counselor helps confused students and aspiring professionals discover suitable career paths, analyze their skill gaps, and generate a personalized learning roadmap — all powered by AI!
 
 🧠 Features
-   📋 Interactive Quiz to understand your mindset and interests
-   💼 Career Suggestions based on your inputs and current market trends
-   🔍 Skill Gap Analyzer compares your current abilities with industry demands
-   📍 Personalized Roadmap Generator based on your career goal
-   📄 Downloadable PDF roadmap for offline reference
-   🧠 AI-Powered Personality Insight to understand your strengths
+   -📋 Interactive Quiz to understand your mindset and interests
+   -💼 Career Suggestions based on your inputs and current market trends
+   -🔍 Skill Gap Analyzer compares your current abilities with industry demands
+   -📍 Personalized Roadmap Generator based on your career goal
+   -📄 Downloadable PDF roadmap for offline reference
+   -🧠 AI-Powered Personality Insight to understand your strengths
 
 💡 Bonus Tips for success and consistency in your journey
 
