@@ -150,7 +150,6 @@ elif st.session_state.step == 4:
             st.session_state.step = 5
         st.rerun()
 
-    st.markdown("---")
     st.markdown("### 📄 Suggested Career Paths")
     st.markdown("_(Scroll to review full suggestions)_")
     st.markdown(st.session_state.suggest_career)
