@@ -109,21 +109,37 @@ elif st.session_state.step == 3:
 # Step 4: Display career suggestions and Skill Gap button
 elif st.session_state.step == 4:
     st.subheader("📊 Career Analysis Based on Your Answers:")
+    
+    st.markdown("### 🌱 Help Us Understand You Better")
+    st.markdown("_This will improve the Skill Gap Analyzer output._")
+
+    # Collect additional info
+    st.session_state.upskill_activities = st.text_area("1. What activities do you regularly do to upskill or learn new things?", placeholder="e.g., Watching tech tutorials, reading books, solving problems on HackerRank...")
+    st.session_state.hobbies = st.text_area("2. What are your hobbies or other interests (even if not related to your main interest)?", placeholder="e.g., Drawing, Gaming, Blogging, Public Speaking...")
+    st.session_state.side_interests = st.text_area("3. Do you have any side interests you'd like to explore as a career?", placeholder="e.g., Music production, Content creation...")
+    st.session_state.book_preference = st.text_area("4. Which type of books do you enjoy reading?", placeholder="e.g., Self-help, Science Fiction, Biographies, Fantasy, Business...")
+
     st.markdown("### 🔍 Want deeper insights?")
-    st.markdown("Click below to analyze your **Skill Gaps** based on your answers and suggested careers.")
+    st.markdown("Click below to analyze your **Skill Gaps** based on your answers, interests, and habits.")
 
     if st.button("🔍 Analyze Skill Gaps"):
         prompt = (
             f"The user is {st.session_state.age} years old and interested in {st.session_state.interest}. "
-            f"They answered the quiz with: {st.session_state.answers}. "
+            f"They answered the quiz with: {st.session_state.answers}.\n\n"
+            f"Additional background:\n"
+            f"- Regular upskilling habits: {st.session_state.upskill_activities}\n"
+            f"- Hobbies: {st.session_state.hobbies}\n"
+            f"- Side interests: {st.session_state.side_interests}\n"
+            f"- Preferred book genres: {st.session_state.book_preference}\n\n"
             f"Based on the following career suggestions:\n{st.session_state.suggest_career}\n\n"
             f"Please analyze the required skills for each career and compare with user's answers and interest. "
             f"Provide a breakdown like:\n\n"
             f"- Career: X\n"
             f"- Required Skills: ...\n"
             f"- Likely Skills User Has: ...\n"
-            f"- Missing Skills: ..." 
+            f"- Missing Skills: ..."
         )
+
         with st.spinner("Analyzing Skill Gaps..."):
             response = client.chat.completions.create(
                 model="meta-llama/Llama-3.1-8B-Instruct",
@@ -134,7 +150,6 @@ elif st.session_state.step == 4:
             st.session_state.step = 5
         st.rerun()
 
-    # 📜 Career Suggestions (can be long, so show after button)
     st.markdown("---")
     st.markdown("### 📄 Suggested Career Paths")
     st.markdown("_(Scroll to review full suggestions)_")
