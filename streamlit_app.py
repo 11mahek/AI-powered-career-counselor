@@ -226,17 +226,18 @@ elif st.session_state.step == 6:
     st.markdown("---")
     st.markdown("### 🧠 AI Personality Insight")
     if "personality" not in st.session_state:
-       prompt = (
-           f"The user is {st.session_state.age} years old, interested in {st.session_state.interest}. "
-           f"They answered the quiz with: {st.session_state.selected}. "
-           f"The user also mentioned they like to read {st.session_state.get('book_preference', 'not specified')} books, "
-           f"regularly do {st.session_state.get('hobbies', 'not specified')}, "
-           f"upskill through {st.session_state.get('upskill_activities', 'not specified')}, "
-           f"and have side interests in {st.session_state.get('side_interests', 'not specified')}. "
-           f"Based on this, generate a brief personality insight about the user (2-3 lines) "
-           f"that describes their mindset, behavior, and potential career traits."
-       )
-
+        prompt = (
+            f"The user is {st.session_state.age} years old, interested in {st.session_state.interest}. "
+            f"They answered the quiz with: {st.session_state.answers}. "
+            f"The user also mentioned they like to read "
+            f"{st.session_state['book_preference'] if 'book_preference' in st.session_state else 'not specified'} books, "
+            f"regularly do {st.session_state['hobbies'] if 'hobbies' in st.session_state else 'not specified'}, "
+            f"upskill through {st.session_state['upskill_activities'] if 'upskill_activities' in st.session_state else 'not specified'}, "
+            f"and have side interests in {st.session_state['side_interests'] if 'side_interests' in st.session_state else 'not specified'}. "
+            f"Based on this, generate a brief personality insight about the user (2-3 lines) "
+            f"that describes their mindset, behavior, and potential career traits."
+        )
+        
         with st.spinner("Analyzing your personality..."):
             response = client.chat.completions.create(
                 model="meta-llama/Llama-3.1-8B-Instruct",
