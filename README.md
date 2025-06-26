@@ -1,25 +1,41 @@
-# 📦 AI-powered Career counselor
-```
-⬆️ (Replace above with your app's name)
-```
+🎓 AI-Powered Career Counselor
+A smart, personalized career guidance tool powered by Meta LLaMA 3 and Streamlit 🚀
 
-Description of the app ...
+AI-Powered Career Counselor helps confused students and aspiring professionals discover suitable career paths, analyze their skill gaps, and generate a personalized learning roadmap — all powered by AI!
 
-## Demo App
+🧠 Features
+   📋 Interactive Quiz to understand your mindset and interests
+   💼 Career Suggestions based on your inputs and current market trends
+   🔍 Skill Gap Analyzer compares your current abilities with industry demands
+   📍 Personalized Roadmap Generator based on your career goal
+   📄 Downloadable PDF roadmap for offline reference
+   🧠 AI-Powered Personality Insight to understand your strengths
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://AI-career-counselor.streamlit.app/)
+💡 Bonus Tips for success and consistency in your journey
 
-## GitHub Codespaces
+⚙️ Tech Stack
+Frontend: Streamlit
+Backend: Hugging Face InferenceClient with Meta LLaMA 3
+PDF Generation: FPDF
+Deployment: Streamlit Community Cloud
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/app-starter-kit?quickstart=1)
+🚀 How It Works
+Enter your age and interest
+Take a personality quiz
+Get AI-generated career suggestions
+Analyze your skill gaps with extra inputs like hobbies and learning habits
+Enter your dream career and get a detailed personalized roadmap
+View a short personality insight powered by AI
+Download your roadmap as a PDF and get bonus career tips
 
-## Section Heading
+📦 Setup Instructions
+1. Clone this repository
+2. Install dependencies:
+     pip install -r requirements.txt
+3. Add your Hugging Face API key in .streamlit/secrets.toml:
+     hf_token = "your_huggingface_api_key"
+Run the app:
+     streamlit run streamlit_app.py
 
-This is filler text, please replace this with text for this section.
+Live Demo : https://ai-powered-career-counselor-4pbaivfwmrrnfsqycwyisg.streamlit.app/
 
-## Further Reading
-
-This is filler text, please replace this with a explanatory text about further relevant resources for this repo
-- Resource 1
-- Resource 2
-- Resource 3
