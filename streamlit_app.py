@@ -113,10 +113,10 @@ elif st.session_state.step == 4:
     st.markdown("_This will improve the Skill Gap Analyzer output._")
 
     # Collect additional info
-    st.session_state.upskill_activities = st.text_area("1. What activities do you regularly do to upskill or learn new things?", placeholder="e.g., Watching tech tutorials, reading books, solving problems on HackerRank...")
-    st.session_state.hobbies = st.text_area("2. What are your hobbies or other interests (even if not related to your main interest)?", placeholder="e.g., Drawing, Gaming, Blogging, Public Speaking...")
-    st.session_state.side_interests = st.text_area("3. Do you have any side interests you'd like to explore as a career?", placeholder="e.g., Music production, Content creation...")
-    st.session_state.book_preference = st.text_area("4. Which type of books do you enjoy reading?", placeholder="e.g., Self-help, Science Fiction, Biographies, Fantasy, Business...")
+    st.session_state.book_preference = st.text_input("📚 What type of books do you like to read?")
+    st.session_state.hobbies = st.text_input("🎨 What are your hobbies?")
+    st.session_state.upskill_activities = st.text_input("📈 How do you upskill yourself?")
+    st.session_state.side_interests = st.text_input("🌱 Any other interests?")
 
     st.markdown("### 🔍 Want deeper insights?")
     st.markdown("Click below to analyze your **Skill Gaps** based on your answers, interests, and habits.")
@@ -226,14 +226,17 @@ elif st.session_state.step == 6:
     st.markdown("---")
     st.markdown("### 🧠 AI Personality Insight")
     if "personality" not in st.session_state:
-        prompt = (
-            f"The user is {st.session_state.age} years old, interested in {st.session_state.interest}. "
-            f"They answered the quiz with: {st.session_state.selected}. "
-            f"The user also mentioned they like to read {st.session_state.book_preference} books "
-            f"and regularly do {st.session_state.hobbies}, regular upskill- {st.session_state.upskill_activities} and side-interest are {st.session_state.side_interests}"
-            f"Based on this, generate a brief personality insight about the user (2-3 lines) "
-            f"that describes their mindset, behavior, and potential career traits."
-        )
+       prompt = (
+           f"The user is {st.session_state.age} years old, interested in {st.session_state.interest}. "
+           f"They answered the quiz with: {st.session_state.selected}. "
+           f"The user also mentioned they like to read {st.session_state.get('book_preference', 'not specified')} books, "
+           f"regularly do {st.session_state.get('hobbies', 'not specified')}, "
+           f"upskill through {st.session_state.get('upskill_activities', 'not specified')}, "
+           f"and have side interests in {st.session_state.get('side_interests', 'not specified')}. "
+           f"Based on this, generate a brief personality insight about the user (2-3 lines) "
+           f"that describes their mindset, behavior, and potential career traits."
+       )
+
         with st.spinner("Analyzing your personality..."):
             response = client.chat.completions.create(
                 model="meta-llama/Llama-3.1-8B-Instruct",
