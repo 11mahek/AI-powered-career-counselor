@@ -27,13 +27,13 @@ AI-Powered Career Counselor helps confused students and aspiring professionals d
 4. Deployment: Streamlit Community Cloud
 
 🚀 How It Works
-1.Enter your age and interest
-2.Take a personality quiz
-3.Get AI-generated career suggestions
-4.Analyze your skill gaps with extra inputs like hobbies and learning habits
-5.Enter your dream career and get a detailed personalized roadmap
-6.View a short personality insight powered by AI
-7.Download your roadmap as a PDF and get bonus career tips
+1. Enter your age and interest
+2. Take a personality quiz
+3. Get AI-generated career suggestions
+4. Analyze your skill gaps with extra inputs like hobbies and learning habits
+5. Enter your dream career and get a detailed personalized roadmap
+6. View a short personality insight powered by AI
+7. Download your roadmap as a PDF and get bonus career tips
 
 📦 Setup Instructions
 1. Clone this repository
