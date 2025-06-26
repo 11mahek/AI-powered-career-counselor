@@ -228,9 +228,9 @@ elif st.session_state.step == 6:
     if "personality" not in st.session_state:
         prompt = (
             f"The user is {st.session_state.age} years old, interested in {st.session_state.interest}. "
-            f"They answered the quiz with: {st.session_state.answers}. "
-            f"The user also mentioned they like to read {st.session_state.book_type} books "
-            f"and regularly do {st.session_state.hobbies}. "
+            f"They answered the quiz with: {st.session_state.selected}. "
+            f"The user also mentioned they like to read {st.session_state.book_preference} books "
+            f"and regularly do {st.session_state.hobbies}, regular upskill- {st.session_state.upskill_activities} and side-interest are {st.session_state.side_interests}"
             f"Based on this, generate a brief personality insight about the user (2-3 lines) "
             f"that describes their mindset, behavior, and potential career traits."
         )
