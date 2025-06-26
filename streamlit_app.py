@@ -248,6 +248,7 @@ elif st.session_state.step == 6:
         st.markdown("🚀 Stay consistent, build projects, and follow industry trends...")
         st.markdown("🎯 Network with professionals on LinkedIn and explore internships early.")
         st.markdown("🧠 Focus on both technical and soft skills.")
+        st.markdown("Don't give up, After this journey walk!!!")
 
     # Restart Option
     if st.button("🔄 Restart Journey"):
