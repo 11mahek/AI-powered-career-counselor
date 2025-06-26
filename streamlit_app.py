@@ -110,7 +110,7 @@ elif st.session_state.step == 4:
     st.subheader("📊 Career Analysis Based on Your Answers:")
     
     st.markdown("### 🌱 Help Us Understand You Better")
-    st.markdown("_This will improve the Skill Gap Analyzer output._")
+    st.markdown("_This will improve the Skill Gap Analyzer output. And helpful for us._")
 
     # Collect additional info
     st.session_state.book_preference = st.text_input("📚 What type of books do you like to read?")
