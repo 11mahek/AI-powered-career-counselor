@@ -248,7 +248,7 @@ elif st.session_state.step == 6:
     st.success(st.session_state.personality)
 
     # Optional motivational tips
-    with st.expander("💡Believe yourself"):
+    with st.expander("💡Believe yourself and Trust your Fate"):
         st.markdown("🚀 Stay consistent, build projects, and follow industry trends...")
         st.markdown("🎯 Network with professionals on LinkedIn and explore internships early.")
         st.markdown("🧠 Focus on both technical and soft skills.")
