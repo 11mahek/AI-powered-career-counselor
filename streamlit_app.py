@@ -189,7 +189,7 @@ elif st.session_state.step == 5:
 
     # Now show skill gap AFTER the roadmap input
     st.markdown("---")
-    st.markdown("### 🔍 Skill Gap Breakdown")
+    st.markdown("### 🔍 Skill Gap Breakdown") 
     st.markdown("Here's a breakdown based on your answers and suggestions:")
     st.markdown(st.session_state.skill_gap)
 
@@ -197,8 +197,11 @@ elif st.session_state.step == 6:
     st.subheader("📍 Your Personalized Career Roadmap")
     st.markdown("Follow this guide to reach your goal step by step:")
 
+    # Show roadmap inside an expander
     with st.expander("📋 Click to view your complete roadmap"):
         st.markdown(st.session_state.roadmap)
+
+    # PDF Generation Code
     class PDF(FPDF):
         def header(self):
             self.set_font("Arial", "B", 14)
@@ -206,6 +209,7 @@ elif st.session_state.step == 6:
         def chapter_body(self, text):
             self.set_font("Arial", "", 12)
             self.multi_cell(0, 10, text)
+
     pdf = PDF()
     pdf.add_page()
     pdf.chapter_body(st.session_state.roadmap)
@@ -217,8 +221,35 @@ elif st.session_state.step == 6:
         f'</a>',
         unsafe_allow_html=True
     )
+
+    # BONUS SECTION: Personality Insight from AI
+    st.markdown("---")
+    st.markdown("### 🧠 AI Personality Insight")
+    if "personality" not in st.session_state:
+        prompt = (
+            f"The user is {st.session_state.age} years old, interested in {st.session_state.interest}. "
+            f"They answered the quiz with: {st.session_state.answers}. "
+            f"The user also mentioned they like to read {st.session_state.book_type} books "
+            f"and regularly do {st.session_state.hobbies}. "
+            f"Based on this, generate a brief personality insight about the user (2-3 lines) "
+            f"that describes their mindset, behavior, and potential career traits."
+        )
+        with st.spinner("Analyzing your personality..."):
+            response = client.chat.completions.create(
+                model="meta-llama/Llama-3.1-8B-Instruct",
+                messages=[{'role': 'user', 'content': prompt}]
+            )
+            st.session_state.personality = response.choices[0].message.content.strip()
+
+    st.success(st.session_state.personality)
+
+    # Optional motivational tips
     with st.expander("💡 Bonus Tips"):
         st.markdown("🚀 Stay consistent, build projects, and follow industry trends...")
+        st.markdown("🎯 Network with professionals on LinkedIn and explore internships early.")
+        st.markdown("🧠 Focus on both technical and soft skills.")
+
+    # Restart Option
     if st.button("🔄 Restart Journey"):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
